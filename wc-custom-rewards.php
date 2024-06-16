@@ -34,7 +34,7 @@ function wc_custom_rewards_deactivate() {
 register_deactivation_hook( __FILE__, 'wc_custom_rewards_deactivate' );
 
 // عرض رصيد المكافآت في صفحة الحساب
-add_action('woocommerce_before_my_account', 'wc_custom_rewards_show_balance');
+//add_action('woocommerce_before_my_account', 'wc_custom_rewards_show_balance');
 function wc_custom_rewards_show_balance() {
     $user_id = get_current_user_id();
     $balance = get_user_meta($user_id, '_wc_custom_rewards_balance', true);

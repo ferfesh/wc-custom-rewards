@@ -21,30 +21,21 @@ function wc_custom_rewards_add_balance( $user_id, $amount ) {
   wp_mail( $to, $subject, $message );
 }
 
-/* // إضافة الرصيد إلى حساب المستخدم
-function wc_custom_rewards_add_balance($current_balance, $amount_to_add) {
-  $current_balance = floatval($current_balance); // تحويل السلسلة النصية إلى عدد عشري
-  $amount_to_add = floatval($amount_to_add); // التأكد من أن المتغير الثاني أيضاً عدد عشري
-
-  return $current_balance + $amount_to_add;
-} */
-
-
 // عرض الرصيد في صفحة الحساب
-add_action('woocommerce_before_my_account', 'wc_custom_rewards_show_balance');
-function wc_custom_rewards_show_balance() {
-    $user_id = get_current_user_id();
-    $balance = get_user_meta($user_id, '_wc_custom_rewards_balance', true);
-    if ($balance) {
-        echo '<p>' . __('رصيد المكافآت: ', 'wc-custom-rewards') . wc_price($balance) . '</p>';
+if (!function_exists('wc_custom_rewards_show_balance')) {
+    function wc_custom_rewards_show_balance() {
+        $user_id = get_current_user_id();
+        $balance = get_user_meta($user_id, '_wc_custom_rewards_balance', true);
+        if ($balance) {
+            echo '<p>' . __('رصيد المكافآت: ', 'wc-custom-rewards') . wc_price($balance) . '</p>';
+        }
     }
 }
-
-add_action( 'woocommerce_account_dashboard', 'wc_custom_rewards_display_balance' );
+add_action('woocommerce_before_my_account', 'wc_custom_rewards_show_balance');
 
 // تطبيق الخصم بناءً على رصيد المكافآت
-add_action('woocommerce_cart_calculate_fees', 'wc_custom_rewards_apply_discount_purchase');
-function wc_custom_rewards_apply_discount_purchase() {
+add_action('woocommerce_cart_calculate_fees', 'wc_custom_rewards_apply_discount_purcase');
+function wc_custom_rewards_apply_discount_purcase() {
     if (is_admin() && !defined('DOING_AJAX')) {
         return;
     }
